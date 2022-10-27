@@ -1,0 +1,39 @@
+$dark-sea-green: #94ae89;
+$laurel-green: #a8bca1;
+$yellow-green-crayola: #c0da74;
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Regular'),
+        url('../fonts/roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Black'),
+        url('../fonts/roboto/Roboto-Black.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Bold'),
+        url('../fonts/roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Light'),
+        url('../fonts/roboto/Roboto-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Medium'),
+        url('../fonts/roboto/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: local('Roboto-Thin'),
+        url('../fonts/roboto/Roboto-Thin.ttf') format('truetype');
+}

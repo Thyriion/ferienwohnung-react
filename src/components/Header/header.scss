@@ -1,0 +1,16 @@
+@use '/src/components/constants.scss' as c;
+
+header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: c.$dark-sea-green;
+    height: fit-content;
+    margin-bottom: 1em;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+
+    .logo {
+        height: 75px;
+    }
+}

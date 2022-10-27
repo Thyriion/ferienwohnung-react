@@ -1,0 +1,24 @@
+nav {
+    font-size: 1.25em;
+    font-weight: 700;
+    ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+
+        li {
+            list-style: none;
+
+            a {
+                text-decoration: none;
+                color: rgb(26, 26, 26);
+                transition: color 0.3s ease;
+                &:hover,
+                &:focus {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
