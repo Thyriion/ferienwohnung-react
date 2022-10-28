@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import Navbar from "./Navbar/Navbar";
 import "./header.scss";
 import { Link } from "react-router-dom";
+
+export const NavTriggerContext = createContext();
 
 export default function Header() {
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -18,7 +20,9 @@ export default function Header() {
             <Link to="/">
                 <img src="/Logo.jpg" alt="Das Logo" className="logo" />
             </Link>
-            <Navbar />
+            <NavTriggerContext.Provider value={triggerNav}>
+                <Navbar />
+            </NavTriggerContext.Provider>
             <div
                 className={
                     mobileNavOpen
@@ -29,6 +33,11 @@ export default function Header() {
                 <div className="mobile-nav-first"></div>
                 <div className="mobile-nav-second"></div>
                 <div className="mobile-nav-third"></div>
+            </div>
+            <div
+                id="mobileNavContainer"
+                className={mobileNavOpen ? "mobile-active" : ""}>
+                <Navbar />
             </div>
         </header>
     );

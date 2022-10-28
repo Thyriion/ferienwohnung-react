@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.scss";
 
@@ -38,15 +38,6 @@ export default function Navbar() {
     );
 
     function CustomLink({ destination, linkText }) {
-        const [isActive, setActive] = useState(false);
-
-        const setzeLinkStatus = () => {
-            setActive(isActive ? false : true);
-        };
-        return (
-            <Link to={destination} className={isActive ? "active" : ""}>
-                {linkText}
-            </Link>
-        );
+        return <Link to={destination}>{linkText}</Link>;
     }
 }
