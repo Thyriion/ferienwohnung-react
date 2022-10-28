@@ -1,36 +1,52 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './navbar.scss';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./navbar.scss";
 
 export default function Navbar() {
     return (
         <nav>
             <ul>
                 <li>
-                    <Link to="/">Startseite</Link>
+                    <CustomLink destination="/" linkText="Startseite" />
                 </li>
                 <li>
-                    <Link to="/Wohnung1">Wohnung 1</Link>
+                    <CustomLink destination="/Wohnung1" linkText="Wohnung 1" />
                 </li>
                 <li>
-                    <Link to="/Wohnung2">Wohnung 2</Link>
+                    <CustomLink destination="/Wohnung2" linkText="Wohnung 2" />
                 </li>
                 <li>
-                    <Link to="/Anfahrt">Anfahrt</Link>
+                    <CustomLink destination="/Anfahrt" linkText="Anfahrt" />
                 </li>
                 <li>
-                    <Link to="/Preise">Preise</Link>
+                    <CustomLink destination="/Preise" linkText="Preise" />
                 </li>
                 <li>
-                    <Link to="/Freizeit">Freizeit</Link>
+                    <CustomLink destination="/Freizeit" linkText="Freizeit" />
                 </li>
                 <li>
-                    <Link to="/Gaestebuch">Gästebuch</Link>
+                    <CustomLink
+                        destination="/Gaestebuch"
+                        linkText="Gästebuch"
+                    />
                 </li>
                 <li>
-                    <Link to="/Kontakt">Kontakt</Link>
+                    <CustomLink destination="/Kontakt" linkText="Kontakt" />
                 </li>
             </ul>
         </nav>
     );
+
+    function CustomLink({ destination, linkText }) {
+        const [isActive, setActive] = useState(false);
+
+        const setzeLinkStatus = () => {
+            setActive(isActive ? false : true);
+        };
+        return (
+            <Link to={destination} className={isActive ? "active" : ""}>
+                {linkText}
+            </Link>
+        );
+    }
 }

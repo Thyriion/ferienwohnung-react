@@ -13,4 +13,56 @@ header {
     .logo {
         height: 75px;
     }
+
+    .mobile-nav-button {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    header nav {
+        display: none;
+    }
+
+    header .mobile-nav-button {
+        display: block;
+        cursor: pointer;
+
+        .mobile-nav-first, 
+        .mobile-nav-second, 
+        .mobile-nav-third {
+            height: 5px;
+            width: 40px;
+            background:rgba(26, 26, 26);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        &.mobile-active {
+            .mobile-nav-first {
+                position: absolute;
+                top: 50px;
+                transform: rotate(45deg);
+            }
+
+            .mobile-nav-second {
+                opacity: 0;
+                transform: translateX(-20px);
+                animation: changeOpacity 0.3s ease;
+            }
+
+            .mobile-nav-third {
+                transform: rotate(135deg);
+            }
+        }
+    }
+}
+
+@keyframes changeOpacity {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
