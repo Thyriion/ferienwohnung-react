@@ -1,0 +1,107 @@
+@use '/src/components/constants.scss' as c;
+
+header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: c.$dark-sea-green;
+    height: fit-content;
+    margin-bottom: 1em;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+
+    .logo {
+        height: 75px;
+    }
+
+    .mobile-nav-button {
+        display: none;
+    }
+}
+
+#mobileNavContainer {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    header {
+        justify-content: space-between;
+    }
+    header nav {
+        display: none;
+    }
+
+    header .mobile-nav-button {
+        display: block;
+        cursor: pointer;
+
+        .mobile-nav-first, 
+        .mobile-nav-second, 
+        .mobile-nav-third {
+            height: 5px;
+            width: 40px;
+            background:rgba(26, 26, 26);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        &.mobile-active {
+            .mobile-nav-first {
+                position: absolute;
+                top: 50px;
+                transform: rotate(45deg);
+            }
+
+            .mobile-nav-second {
+                opacity: 0;
+                transform: translateX(-20px);
+                animation: changeOpacity 0.3s ease;
+            }
+
+            .mobile-nav-third {
+                transform: rotate(135deg);
+            }
+        }
+    }
+
+    #mobileNavContainer.mobile-active {
+        display: block;
+        position: absolute;
+        padding: 20px 0;
+        inset: 5.5em 0 0 0;
+        animation: mobileNav 0.3s ease;
+        width: 100%;
+        height: fit-content;
+        background-color: c.$dark-sea-green;
+
+        nav {
+            display: block;
+            
+            ul {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+}
+
+@keyframes changeOpacity {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes mobileNav {
+    0% {
+        opacity: 0;
+        left: -100vh;
+    }
+
+    100% {
+        opacity: 1;
+        left: 0; 
+    }
+}

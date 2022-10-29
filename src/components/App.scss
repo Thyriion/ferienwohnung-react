@@ -1,0 +1,17 @@
+@use '/src/components/constants.scss' as c;
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+footer {
+    grid-area: footer;
+}
