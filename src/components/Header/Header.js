@@ -20,9 +20,7 @@ export default function Header() {
             <Link to="/">
                 <img src="/Logo.jpg" alt="Das Logo" className="logo" />
             </Link>
-            <NavTriggerContext.Provider value={triggerNav}>
-                <Navbar />
-            </NavTriggerContext.Provider>
+            <Navbar />
             <div
                 className={
                     mobileNavOpen
@@ -36,7 +34,8 @@ export default function Header() {
             </div>
             <div
                 id="mobileNavContainer"
-                className={mobileNavOpen ? "mobile-active" : ""}>
+                className={mobileNavOpen ? "mobile-active" : ""}
+                onClick={triggerNav}>
                 <Navbar />
             </div>
         </header>
