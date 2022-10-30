@@ -11,6 +11,6 @@
         'header'
         'main'
         'footer';
-    grid-template-rows: 12.5% 75% 12.5%;
+    grid-template-rows: 12.5% auto 12.5%;
     grid-row-gap: 2em;
 }

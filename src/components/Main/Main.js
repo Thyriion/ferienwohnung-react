@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from '../Pages/Home';
-import Wohnung1 from '../Pages/Wohnung1';
-import Wohnung2 from '../Pages/Wohnung2';
-import Anfahrt from '../Pages/Anfahrt';
-import Preise from '../Pages/Preise';
-import Freizeit from '../Pages/Freizeit';
-import Gaestebuch from '../Pages/Gaestebuch';
-import Kontakt from '../Pages/Kontakt';
+import Home from './Pages/Home';
+import Wohnung1 from './Pages/Wohnung1';
+import Wohnung2 from './Pages/Wohnung2';
+import Anfahrt from './Pages/Anfahrt';
+import Preise from './Pages/Preise';
+import Freizeit from './Pages/Freizeit';
+import Gaestebuch from './Pages/Gaestebuch';
+import Kontakt from './Pages/Kontakt';
 
 export default function Main() {
     return (
