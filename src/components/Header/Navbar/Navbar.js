@@ -1,10 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./navbar.scss";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './navbar.scss';
 
 export default function Navbar() {
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+    const triggerNav = () => {
+        if (mobileNavOpen) {
+            setMobileNavOpen(false);
+        } else {
+            setMobileNavOpen(true);
+        }
+    };
+
     return (
-        <nav>
+        <>
+            <nav>
+                <CustomNavList />
+            </nav>
+            <div
+                className={
+                    mobileNavOpen
+                        ? 'mobile-active mobile-nav-button'
+                        : 'mobile-nav-button'
+                }
+                onClick={triggerNav}>
+                <div className="mobile-nav-first"></div>
+                <div className="mobile-nav-second"></div>
+                <div className="mobile-nav-third"></div>
+            </div>
+            <div
+                id="mobileNavContainer"
+                className={mobileNavOpen ? 'mobile-active' : ''}
+                onClick={triggerNav}>
+                <nav>
+                    <CustomNavList />
+                </nav>
+            </div>
+        </>
+    );
+
+    function CustomLink({ destination, linkText }) {
+        return <Link to={destination}>{linkText}</Link>;
+    }
+
+    function CustomNavList() {
+        return (
             <ul>
                 <li>
                     <CustomLink destination="/" linkText="Startseite" />
@@ -34,10 +75,6 @@ export default function Navbar() {
                     <CustomLink destination="/Kontakt" linkText="Kontakt" />
                 </li>
             </ul>
-        </nav>
-    );
-
-    function CustomLink({ destination, linkText }) {
-        return <Link to={destination}>{linkText}</Link>;
+        );
     }
 }
