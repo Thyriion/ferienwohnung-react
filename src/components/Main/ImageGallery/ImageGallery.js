@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ImageGallery.css';
+import './ImageGallery.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCircleChevronLeft,
@@ -66,7 +66,7 @@ export default function ImageGallery() {
     };
 
     return (
-        <div>
+        <>
             {openModal && (
                 <div className="sliderWrap">
                     <FontAwesomeIcon
@@ -91,6 +91,18 @@ export default function ImageGallery() {
             )}
 
             <div className="galleryWrap">
+                <div className="btnPrevContainer" onClick={prevSlide}>
+                    <FontAwesomeIcon
+                        icon={faCircleChevronLeft}
+                        className="btnPrev"
+                    />
+                </div>
+                <div className="btnNextContainer" onClick={nextSlide}>
+                    <FontAwesomeIcon
+                        icon={faCircleChevronRight}
+                        className="btnNext"
+                    />
+                </div>
                 {ImageGallery &&
                     ImageGallery.map((slide, index) => {
                         return (
@@ -98,11 +110,17 @@ export default function ImageGallery() {
                                 className="single"
                                 key={index}
                                 onClick={() => handleOpenModal(index)}>
-                                <img src={slide.img} alt="" />
+                                <img
+                                    src={slide.img}
+                                    alt=""
+                                    className={
+                                        slideNumber === index ? 'active' : ''
+                                    }
+                                />
                             </div>
                         );
                     })}
             </div>
-        </div>
+        </>
     );
 }
