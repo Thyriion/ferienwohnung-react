@@ -69,28 +69,32 @@ export default function ImageGallery() {
         <>
             {openModal && (
                 <div className="sliderWrap">
-                    <FontAwesomeIcon
-                        icon={faCircleXmark}
-                        className="btnClose"
-                        onClick={handleCloseModal}
-                    />
-                    <FontAwesomeIcon
-                        icon={faCircleChevronLeft}
-                        className="btnPrev"
-                        onClick={prevSlide}
-                    />
-                    <FontAwesomeIcon
-                        icon={faCircleChevronRight}
-                        className="btnNext"
-                        onClick={nextSlide}
-                    />
-                    <div className="fullScreenImage">
+                    <div className="btnPrevContainer" onClick={prevSlide}>
+                        <FontAwesomeIcon
+                            icon={faCircleChevronLeft}
+                            className="btnPrev"
+                        />
+                    </div>
+                    <div className="btnNextContainer" onClick={nextSlide}>
+                        <FontAwesomeIcon
+                            icon={faCircleChevronRight}
+                            className="btnNext"
+                        />
+                    </div>
+                    <div className="fullScreenImage" onClick={handleCloseModal}>
                         <img src={ImageGallery[slideNumber].img} alt="" />
+                        <div className="btnCloseContainer">
+                            <FontAwesomeIcon
+                                icon={faCircleXmark}
+                                className="btnClose"
+                                onClick={handleCloseModal}
+                            />
+                        </div>
                     </div>
                 </div>
             )}
 
-            <div className="galleryWrap">
+            <div className={openModal ? 'galleryWrap hidden' : 'galleryWrap'}>
                 <div className="btnPrevContainer" onClick={prevSlide}>
                     <FontAwesomeIcon
                         icon={faCircleChevronLeft}
