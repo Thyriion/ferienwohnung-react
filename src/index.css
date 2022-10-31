@@ -4,13 +4,17 @@
     box-sizing: border-box;
 }
 
+body {
+    min-height: 100vh;
+}
+
 #root {
-    height: 100vh;
     display: grid;
+    min-height: 100vh;
+    height: 100%;
     grid-template-areas:
-        'header'
-        'main'
-        'footer';
-    grid-template-rows: 12.5% auto 12.5%;
+        'header header header'
+        'main main main'
+        'footer footer footer';
     grid-row-gap: 2em;
 }

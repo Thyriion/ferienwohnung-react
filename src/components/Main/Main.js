@@ -8,6 +8,7 @@ import Preise from './Pages/Preise';
 import Freizeit from './Pages/Freizeit';
 import Gaestebuch from './Pages/Gaestebuch';
 import Kontakt from './Pages/Kontakt';
+import './Pages/Pages.scss';
 
 export default function Main() {
     return (
