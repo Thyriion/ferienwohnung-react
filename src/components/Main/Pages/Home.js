@@ -6,10 +6,9 @@ export default function Home() {
     return (
         <>
             <h1>Herzlich Willkommen in der Plattenburger Straße 3</h1>
-            <h2>Ferienwohnung mit Wallbox - Elektrotankstelle</h2>
             <div className="content">
                 <div className="text-content">
-                    <h3>Urlaub in Bad Wilsnack!</h3>
+                    <h2>Urlaub in Bad Wilsnack!</h2>
                     <br />
                     <p>
                         Baden im Thermalbad, Kuren in der Elbtalklinik, erholen
@@ -46,7 +45,23 @@ export default function Home() {
                 <br />
                 <p className="text-red">Zweites Fernsehgerät im Schlafzimmer</p>
             </div>
+            <div>
+                <h2>Ferienwohnung mit Wallbox - Elektrotankstelle</h2>
+                <br />
+                <p>
+                    Ab März 2022 ist eine Wallbox zum Laden für die Elektroautos meiner Gäste auf dem Hof vorhanden.
+                    Die Elektrotankstelle liefert 11 KW und hat einen Typ 2 Anschluss.
+                </p>
+                <br />
+                <p>
+                    <strong>Unser Beitrag für die Umwelt:</strong><br />
+                    Ab Januar 2022 haben wir die Ferienwohnungen auf Ökostrom aus 100 % Wasserkraft umgestellt.
+                    Eine Solarthermieanlage auf dem Dach unterstützt die Heizung und Warmwassererzeugung
+                    und hilft, Erdgas einzusparen.
+                </p>
+            </div>
             <ImageGallery />
+            <div><hr /></div>
         </>
     );
 }
