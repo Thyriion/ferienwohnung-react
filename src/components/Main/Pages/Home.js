@@ -49,19 +49,24 @@ export default function Home() {
                 <h2>Ferienwohnung mit Wallbox - Elektrotankstelle</h2>
                 <br />
                 <p>
-                    Ab März 2022 ist eine Wallbox zum Laden für die Elektroautos meiner Gäste auf dem Hof vorhanden.
-                    Die Elektrotankstelle liefert 11 KW und hat einen Typ 2 Anschluss.
+                    Ab März 2022 ist eine Wallbox zum Laden für die Elektroautos
+                    meiner Gäste auf dem Hof vorhanden. Die Elektrotankstelle
+                    liefert 11 KW und hat einen Typ 2 Anschluss.
                 </p>
                 <br />
                 <p>
-                    <strong>Unser Beitrag für die Umwelt:</strong><br />
-                    Ab Januar 2022 haben wir die Ferienwohnungen auf Ökostrom aus 100 % Wasserkraft umgestellt.
-                    Eine Solarthermieanlage auf dem Dach unterstützt die Heizung und Warmwassererzeugung
+                    <strong>Unser Beitrag für die Umwelt:</strong>
+                    <br />
+                    Ab Januar 2022 haben wir die Ferienwohnungen auf Ökostrom
+                    aus 100 % Wasserkraft umgestellt. Eine Solarthermieanlage
+                    auf dem Dach unterstützt die Heizung und Warmwassererzeugung
                     und hilft, Erdgas einzusparen.
                 </p>
             </div>
             <ImageGallery />
-            <div><hr /></div>
+            <div>
+                <hr />
+            </div>
         </>
     );
 }

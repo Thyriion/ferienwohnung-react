@@ -1,0 +1,14 @@
+@use '/src/components/constants.scss' as c;
+
+footer {
+    width: 100%;
+    height: fit-content;
+    min-height: 100px;
+    background-color: c.$dark-sea-green;
+    display: flex;
+    gap: 20px;
+    padding: 20px 40px;
+    margin-top: 1em;
+    justify-content: space-evenly;
+    align-items: center;
+}

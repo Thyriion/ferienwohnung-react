@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './Pages/Pages.scss';
-import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 
 const Home = React.lazy(() => import('./Pages/Home'));
 const Wohnung1 = React.lazy(() => import('./Pages/Wohnung1'));
@@ -13,7 +13,6 @@ const Gaestebuch = React.lazy(() => import('./Pages/Gaestebuch'));
 const Kontakt = React.lazy(() => import('./Pages/Kontakt'));
 
 export default function Main() {
-
     return (
         <main>
             <Suspense fallback={<LoadingSpinner />}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './ImageSliderStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,7 +14,11 @@ export default function ImageGallery() {
     const [slideNumber, setSlideNumber] = useState(0);
     const [openModal, setOpenModal] = useState(false);
     const [autoPlay, setAutoPlay] = useState(true);
-    const [timeOut, setSliderTimeout] = useState(2500);
+    const [timeOut, setSliderTimeout] = useState(3500);
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const minSwipeDistance = 20;
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -24,25 +28,55 @@ export default function ImageGallery() {
         setOpenModal(false);
     };
 
-    const prevSlide = () => {
+    const prevSlide = useCallback(() => {
         slideNumber === 0
             ? setSlideNumber(ImageGallery.length - 1)
             : setSlideNumber(slideNumber - 1);
-    };
+    }, [slideNumber, ImageGallery.length]);
 
     const nextSlide = useCallback(() => {
-        slideNumber + 1 === ImageGallery.length
-            ? setSlideNumber(0)
-            : setSlideNumber(slideNumber + 1);
+        if (slideNumber === ImageGallery.length - 1) {
+            setSlideNumber(0);
+        } else {
+            setSlideNumber(slideNumber + 1);
+        }
     }, [slideNumber, ImageGallery.length]);
 
     const createTimeOut = () => {
+        clearTimeout(timeOut);
         autoPlay &&
             setSliderTimeout(
                 setTimeout(() => {
                     nextSlide();
-                }, 2500)
+                }, 3500)
             );
+    };
+
+    const handleTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) {
+            return;
+        }
+
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < minSwipeDistance;
+
+        if (isLeftSwipe) {
+            nextSlide();
+        }
+
+        if (isRightSwipe) {
+            prevSlide();
+        }
     };
 
     useEffect(createTimeOut, [slideNumber, autoPlay, nextSlide]);
@@ -71,7 +105,13 @@ export default function ImageGallery() {
                             className="btnNext"
                         />
                     </div>
-                    <div className="fullScreenImage" onClick={handleCloseModal}>
+                    <div
+                        className="fullScreenImage"
+                        onClick={handleCloseModal}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
                         <img src={ImageGallery[slideNumber].img} alt="" />
                         <div className="btnCloseContainer">
                             <FontAwesomeIcon
@@ -85,7 +125,7 @@ export default function ImageGallery() {
             )}
 
             <div
-                className='galleryWrap'
+                className="galleryWrap"
                 onMouseEnter={() => {
                     setAutoPlay(false);
                     clearTimeout(timeOut);
@@ -93,7 +133,8 @@ export default function ImageGallery() {
                 onMouseLeave={() => {
                     clearTimeout(timeOut);
                     setAutoPlay(true);
-                }}>
+                }}
+            >
                 <div className="btnPrevContainer" onClick={prevSlide}>
                     <FontAwesomeIcon
                         icon={faCircleChevronLeft}
@@ -109,24 +150,45 @@ export default function ImageGallery() {
                 {ImageGallery &&
                     ImageGallery.map((slide, index) => {
                         return (
-                            <div
-                                className="single"
-                                key={index}
-                                onClick={() => {
-                                    handleOpenModal(index);
-                                    setAutoPlay(false);
-                                    clearTimeout(timeOut);
-                                }}>
-                                <img
-                                    src={slide.img}
-                                    alt=""
-                                    className={
-                                        slideNumber === index ? 'active' : ''
-                                    }
-                                />
-                            </div>
+                            <>
+                                <div
+                                    className="single"
+                                    key={index}
+                                    onClick={() => {
+                                        handleOpenModal(index);
+                                        setAutoPlay(false);
+                                        clearTimeout(timeOut);
+                                    }}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={handleTouchEnd}
+                                >
+                                    <img
+                                        key={slide.alt}
+                                        src={slide.img}
+                                        alt=""
+                                        className={
+                                            slideNumber === index
+                                                ? 'active'
+                                                : ''
+                                        }
+                                    />
+                                </div>
+                            </>
                         );
                     })}
+                <div className="dots">
+                    {ImageGallery.map((value, index) => {
+                        return (
+                            <div
+                                key={index}
+                                className={
+                                    index === slideNumber ? 'active dot' : 'dot'
+                                }
+                            ></div>
+                        );
+                    })}
+                </div>
             </div>
         </>
     );
