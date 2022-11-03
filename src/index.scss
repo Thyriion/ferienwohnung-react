@@ -1,0 +1,23 @@
+@use './components/constants.scss' as constants;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: constants.$almond;
+}
+
+#root {
+    display: grid;
+    min-height: 100vh;
+    height: 100%;
+    grid-template-areas:
+        'header header header'
+        'main main main'
+        'footer footer footer';
+    grid-row-gap: 2em;
+}
