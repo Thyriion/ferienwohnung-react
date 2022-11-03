@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './ImageSliderStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -8,16 +8,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ImageData } from './ImageSliderData';
 
-export default function ImageGallery() {
+export default function ImageSlider() {
     const ImageGallery = ImageData;
 
     const [slideNumber, setSlideNumber] = useState(0);
-    const [openModal, setOpenModal] = useState(false);
     const [autoPlay, setAutoPlay] = useState(true);
-    const [timeOut, setSliderTimeout] = useState(3500);
+    const [openModal, setOpenModal] = useState(false);
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
 
+    const autoPlayRef = useRef();
     const minSwipeDistance = 20;
 
     const handleOpenModal = () => {
@@ -41,16 +41,6 @@ export default function ImageGallery() {
             setSlideNumber(slideNumber + 1);
         }
     }, [slideNumber, ImageGallery.length]);
-
-    const createTimeOut = () => {
-        clearTimeout(timeOut);
-        autoPlay &&
-            setSliderTimeout(
-                setTimeout(() => {
-                    nextSlide();
-                }, 3500)
-            );
-    };
 
     const handleTouchStart = (e) => {
         setTouchEnd(null);
@@ -79,15 +69,17 @@ export default function ImageGallery() {
         }
     };
 
-    useEffect(createTimeOut, [slideNumber, autoPlay, nextSlide]);
     useEffect(() => {
-        if (openModal) {
-            setAutoPlay(false);
-            clearTimeout(timeOut);
-        } else {
-            setAutoPlay(true);
+        if (autoPlay && !openModal) {
+            autoPlayRef.current = nextSlide;
+            const play = () => {
+                autoPlayRef.current();
+            };
+
+            const interval = setInterval(play, 3500);
+            return () => clearInterval(interval);
         }
-    }, [setAutoPlay, openModal, timeOut]);
+    });
 
     return (
         <>
@@ -103,6 +95,7 @@ export default function ImageGallery() {
                         <FontAwesomeIcon
                             icon={faCircleChevronRight}
                             className="btnNext"
+                            key="btnNextIcon"
                         />
                     </div>
                     <div
@@ -111,8 +104,13 @@ export default function ImageGallery() {
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
+                        key="fullScreenImage"
                     >
-                        <img src={ImageGallery[slideNumber].img} alt="" />
+                        <img
+                            src={ImageGallery[slideNumber].img}
+                            alt={ImageGallery[slideNumber].alt}
+                            className="active"
+                        />
                         <div className="btnCloseContainer">
                             <FontAwesomeIcon
                                 icon={faCircleXmark}
@@ -127,12 +125,14 @@ export default function ImageGallery() {
             <div
                 className="galleryWrap"
                 onMouseEnter={() => {
-                    setAutoPlay(false);
-                    clearTimeout(timeOut);
+                    setAutoPlay((prevState) => {
+                        return false;
+                    });
                 }}
                 onMouseLeave={() => {
-                    clearTimeout(timeOut);
-                    setAutoPlay(true);
+                    setAutoPlay((prevState) => {
+                        return true;
+                    });
                 }}
             >
                 <div className="btnPrevContainer" onClick={prevSlide}>
@@ -150,46 +150,44 @@ export default function ImageGallery() {
                 {ImageGallery &&
                     ImageGallery.map((slide, index) => {
                         return (
-                            <>
-                                <div
-                                    className="single"
-                                    key={index}
-                                    onClick={() => {
-                                        handleOpenModal(index);
-                                        setAutoPlay(false);
-                                        clearTimeout(timeOut);
-                                    }}
-                                    onTouchStart={handleTouchStart}
-                                    onTouchMove={handleTouchMove}
-                                    onTouchEnd={handleTouchEnd}
-                                >
-                                    <img
-                                        key={slide.alt}
-                                        src={slide.img}
-                                        alt=""
-                                        className={
-                                            slideNumber === index
-                                                ? 'active'
-                                                : ''
-                                        }
-                                    />
-                                </div>
-                            </>
-                        );
-                    })}
-                <div className="dots">
-                    {ImageGallery.map((value, index) => {
-                        return (
                             <div
+                                className="single"
                                 key={index}
-                                className={
-                                    index === slideNumber ? 'active dot' : 'dot'
-                                }
-                            ></div>
+                                onClick={handleOpenModal}
+                                onTouchStart={handleTouchStart}
+                                onTouchMove={handleTouchMove}
+                                onTouchEnd={handleTouchEnd}
+                            >
+                                <img
+                                    src={slide.img}
+                                    alt=""
+                                    className={
+                                        slideNumber === index ? 'active' : ''
+                                    }
+                                />
+                            </div>
                         );
                     })}
-                </div>
+                <Dots
+                    ImageGalleryLength={ImageGallery.length}
+                    SlideNumber={slideNumber}
+                    setSlideNumber={setSlideNumber}
+                />
             </div>
         </>
     );
+}
+
+function Dots({ ImageGalleryLength, SlideNumber, setSlideNumber }) {
+    let dotDivs = [];
+    for (let i = 0; i < ImageGalleryLength; i++) {
+        dotDivs.push(
+            <div
+                key={i}
+                onClick={() => setSlideNumber(i)}
+                className={i === SlideNumber ? 'active dot' : 'dot'}
+            ></div>
+        );
+    }
+    return <div className="dots">{dotDivs}</div>;
 }

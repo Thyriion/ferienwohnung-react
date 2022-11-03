@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageGallery from '../ImageSlider/ImageSlider';
+import ImageSlider from '../ImageSlider/ImageSlider';
 import './Home.scss';
 
 export default function Home() {
@@ -34,7 +34,8 @@ export default function Home() {
                 <div className="img">
                     <img
                         src="https://images.unsplash.com/photo-1666506581782-7b58bc184a2a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
-                        alt="Oberes Drittel eines Hochhauses"></img>
+                        alt="Oberes Drittel eines Hochhauses"
+                    />
                 </div>
             </div>
             <div className="hinweis-text">
@@ -63,7 +64,7 @@ export default function Home() {
                     und hilft, Erdgas einzusparen.
                 </p>
             </div>
-            <ImageGallery />
+            <ImageSlider />
             <div>
                 <hr />
             </div>
