@@ -9,13 +9,21 @@ import {
 import { ImageData } from './ImageSliderData';
 
 export default function ImageSlider() {
-    const ImageGallery = ImageData;
-
     const [slideNumber, setSlideNumber] = useState(0);
     const [autoPlay, setAutoPlay] = useState(true);
     const [openModal, setOpenModal] = useState(false);
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+    const [ImageGallery, setImageGallery] = useState([]);
+
+    const setImages = async () => {
+        const data = await ImageData;
+        setImageGallery(data);
+    };
+
+    if (ImageGallery.length === 0) {
+        setImages();
+    }
 
     const autoPlayRef = useRef();
     const minSwipeDistance = 20;
