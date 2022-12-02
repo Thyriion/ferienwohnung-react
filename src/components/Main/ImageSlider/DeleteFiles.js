@@ -4,6 +4,7 @@ import {
     getImageData,
     deleteImage,
 } from '../../../context/supabase/SupabaseActions';
+import './DeleteFilesStyles.scss';
 
 export default function DeleteFiles() {
     const { images, dispatch } = useContext(SupabaseContext);
@@ -26,11 +27,11 @@ export default function DeleteFiles() {
     }, []);
 
     return (
-        <>
+        <div className="delete-image-wrapper">
             {images.map((image, index) => {
                 return (
-                    <div key={index}>
-                        <img src={image.img} alt={image.alt} height={100} />
+                    <div key={index} className="delete-image">
+                        <img src={image.img} alt={image.alt} height={200} />
                         <button
                             onClick={() => {
                                 handleDelete(image.alt);
@@ -41,6 +42,6 @@ export default function DeleteFiles() {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }
