@@ -26,3 +26,27 @@ export const getImageData = async () => {
 
     return images;
 };
+
+export const uploadImage = async (event) => {
+    try {
+
+        if (!event.target.files || event.target.files.length === 0) {
+            throw new Error('Bitte wähle ein Bild aus zum Hochladen.');
+        }
+
+        const file = event.target.files[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        let { error: uploadError } = await supabase.storage
+            .from('images')
+            .upload(filePath, file);
+
+        if (uploadError) {
+            throw uploadError;
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+}
