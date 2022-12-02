@@ -6,13 +6,13 @@ import {
 } from '../../../context/supabase/SupabaseActions';
 import './DeleteFilesStyles.scss';
 
-export default function DeleteFiles() {
+export default function DeleteFiles({ from }) {
     const { images, dispatch } = useContext(SupabaseContext);
 
     const handleDelete = (imageName) => {
         dispatch({ type: 'SET_EDIT_LOADING', payload: true });
         const deleteFile = async () => {
-            await deleteImage(imageName);
+            await deleteImage(imageName, from);
             dispatch({ type: 'DELETE_FILE' });
         };
         deleteFile();
@@ -20,7 +20,7 @@ export default function DeleteFiles() {
 
     useEffect(() => {
         const setImages = async () => {
-            const data = await getImageData();
+            const data = await getImageData(from);
             dispatch({ type: 'GET_IMAGES', payload: data });
         };
         setImages();

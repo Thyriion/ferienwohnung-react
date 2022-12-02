@@ -17,7 +17,7 @@ import { getImageData } from '../../../context/supabase/SupabaseActions';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { Link } from 'react-router-dom';
 
-export default function ImageSlider() {
+export default function ImageSlider({ seite }) {
     const { images, loading, dispatch } = useContext(SupabaseContext);
 
     const [slideNumber, setSlideNumber] = useState(0);
@@ -29,7 +29,7 @@ export default function ImageSlider() {
     useEffect(() => {
         dispatch({ type: 'SET_LOADING' });
         const setImages = async () => {
-            const data = await getImageData();
+            const data = await getImageData(seite);
             dispatch({ type: 'GET_IMAGES', payload: data });
         };
         setImages();
@@ -142,7 +142,9 @@ export default function ImageSlider() {
                         </div>
                     </div>
                 )}
-                <Link to={'/Edit'}>Edit</Link>
+                <Link to="/Edit" state={{ from: seite }}>
+                    Edit
+                </Link>
                 <div
                     className="galleryWrap"
                     onMouseEnter={() => {

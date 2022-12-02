@@ -5,56 +5,65 @@ const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export const getImageData = async () => {
-    const files = (await supabase.storage.from('images').list()).data;
-
+export const getImageData = async (folder) => {
+    const files = (await supabase.storage.from('images').list(`${folder}`))
+        .data;
     const images = await Promise.all(
-        files.map(async (image) => {
-            const { data, error } = await supabase.storage
-                .from('images')
-                .download(image.name);
+        files
+            .filter((image) => image.name !== '.emptyFolderPlaceholder')
+            .map(async (image) => {
+                const { data, error } = await supabase.storage
+                    .from('images')
+                    .download(image.name);
 
-            if (error) {
-                throw error;
-            }
-            return {
-                alt: image.name,
-                img: URL.createObjectURL(data),
-            };
-        })
+                if (error) {
+                    throw error;
+                }
+                return {
+                    alt: image.name,
+                    img: URL.createObjectURL(data),
+                };
+            })
     );
 
     return images;
 };
 
-export const uploadImage = async (event) => {
+export const uploadImage = async (event, folder) => {
     try {
         if (!event.target.files || event.target.files.length === 0) {
             throw new Error('Bitte wähle ein Bild aus zum Hochladen.');
         }
 
         const file = event.target.files[0];
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${fileName}`;
-
+        const filePath = `${file.name}`;
+        console.log(filePath);
         let { error: uploadError } = await supabase.storage
             .from('images')
             .upload(filePath, file);
 
+        console.log(uploadError);
         if (uploadError) {
             throw uploadError;
+        }
+
+        const { error } = await supabase.storage
+            .from('images')
+            .move(filePath, `${folder}/${file.name}-${folder}`);
+
+        if (error) {
+            throw error;
         }
     } catch (error) {
         alert(error.message);
     }
 };
 
-export const deleteImage = async (fileName) => {
+export const deleteImage = async (fileName, folder) => {
     try {
         const { error } = await supabase.storage
             .from('images')
-            .remove([`${fileName}`]);
+            .remove([`${folder}/${fileName}`]);
 
         if (error) {
             throw error;

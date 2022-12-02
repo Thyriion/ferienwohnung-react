@@ -64,7 +64,7 @@ export default function Home() {
                     und hilft, Erdgas einzusparen.
                 </p>
             </div>
-            <ImageSlider />
+            <ImageSlider seite="Startseite" />
             <div>
                 <hr />
             </div>
