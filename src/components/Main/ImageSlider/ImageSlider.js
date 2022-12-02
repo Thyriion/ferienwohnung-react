@@ -15,6 +15,7 @@ import {
 import SupabaseContext from '../../../context/supabase/SupabaseContext';
 import { getImageData } from '../../../context/supabase/SupabaseActions';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 export default function ImageSlider() {
     const { images, loading, dispatch } = useContext(SupabaseContext);
@@ -141,7 +142,7 @@ export default function ImageSlider() {
                         </div>
                     </div>
                 )}
-
+                <Link to={'/Edit'}>Edit</Link>
                 <div
                     className="galleryWrap"
                     onMouseEnter={() => {

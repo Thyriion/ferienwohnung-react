@@ -18,7 +18,7 @@ export const getImageData = async () => {
                 throw error;
             }
             return {
-                alt: 'Sliderbild',
+                alt: image.name,
                 img: URL.createObjectURL(data),
             };
         })
@@ -29,7 +29,6 @@ export const getImageData = async () => {
 
 export const uploadImage = async (event) => {
     try {
-
         if (!event.target.files || event.target.files.length === 0) {
             throw new Error('Bitte wähle ein Bild aus zum Hochladen.');
         }
@@ -49,4 +48,18 @@ export const uploadImage = async (event) => {
     } catch (error) {
         alert(error.message);
     }
-}
+};
+
+export const deleteImage = async (fileName) => {
+    try {
+        const { error } = await supabase.storage
+            .from('images')
+            .remove([`${fileName}`]);
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+};

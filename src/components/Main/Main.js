@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './Pages/Pages.scss';
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
+import Edit from './ImageSlider/Edit';
 
 const Home = React.lazy(() => import('./Pages/Home'));
 const Wohnung1 = React.lazy(() => import('./Pages/Wohnung1'));
@@ -25,6 +26,7 @@ export default function Main() {
                     <Route path="/Freizeit" element={<Freizeit />} />
                     <Route path="/Gaestebuch" element={<Gaestebuch />} />
                     <Route path="/Kontakt" element={<Kontakt />} />
+                    <Route path="/Edit" element={<Edit />} />
                 </Routes>
             </Suspense>
         </main>
