@@ -3,14 +3,17 @@ import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 import FileUpload from '../FileUpload';
+import { SupabaseProvider } from '../context/supabase/SupabaseContext';
 
 function App() {
     return (
         <>
-            <Header />
-            <Main />
-            <FileUpload />
-            <Footer />
+            <SupabaseProvider>
+                <Header />
+                <Main />
+                <FileUpload />
+                <Footer />
+            </SupabaseProvider>
         </>
     );
 }

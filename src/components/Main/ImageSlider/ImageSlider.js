@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+    useContext,
+} from 'react';
 import './ImageSliderStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -6,24 +12,27 @@ import {
     faCircleChevronRight,
     faCircleXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { ImageData } from './ImageSliderData';
+import SupabaseContext from '../../../context/supabase/SupabaseContext';
+import { getImageData } from '../../../context/supabase/SupabaseActions';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 export default function ImageSlider() {
+    const { images, loading, dispatch } = useContext(SupabaseContext);
+
     const [slideNumber, setSlideNumber] = useState(0);
     const [autoPlay, setAutoPlay] = useState(true);
     const [openModal, setOpenModal] = useState(false);
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
-    const [ImageGallery, setImageGallery] = useState([]);
 
-    const setImages = async () => {
-        const data = await ImageData;
-        setImageGallery(data);
-    };
-
-    if (ImageGallery.length === 0) {
+    useEffect(() => {
+        dispatch({ type: 'SET_LOADING' });
+        const setImages = async () => {
+            const data = await getImageData();
+            dispatch({ type: 'GET_IMAGES', payload: data });
+        };
         setImages();
-    }
+    }, []);
 
     const autoPlayRef = useRef();
     const minSwipeDistance = 20;
@@ -38,17 +47,17 @@ export default function ImageSlider() {
 
     const prevSlide = useCallback(() => {
         slideNumber === 0
-            ? setSlideNumber(ImageGallery.length - 1)
+            ? setSlideNumber(images.length - 1)
             : setSlideNumber(slideNumber - 1);
-    }, [slideNumber, ImageGallery.length]);
+    }, [slideNumber, images.length]);
 
     const nextSlide = useCallback(() => {
-        if (slideNumber === ImageGallery.length - 1) {
+        if (slideNumber === images.length - 1) {
             setSlideNumber(0);
         } else {
             setSlideNumber(slideNumber + 1);
         }
-    }, [slideNumber, ImageGallery.length]);
+    }, [slideNumber, images.length]);
 
     const handleTouchStart = (e) => {
         setTouchEnd(null);
@@ -89,10 +98,63 @@ export default function ImageSlider() {
         }
     });
 
-    return (
-        <>
-            {openModal && (
-                <div className="sliderWrap">
+    if (loading) {
+        return <LoadingSpinner />;
+    } else {
+        return (
+            <>
+                {openModal && (
+                    <div className="sliderWrap">
+                        <div className="btnPrevContainer" onClick={prevSlide}>
+                            <FontAwesomeIcon
+                                icon={faCircleChevronLeft}
+                                className="btnPrev"
+                            />
+                        </div>
+                        <div className="btnNextContainer" onClick={nextSlide}>
+                            <FontAwesomeIcon
+                                icon={faCircleChevronRight}
+                                className="btnNext"
+                                key="btnNextIcon"
+                            />
+                        </div>
+                        <div
+                            className="fullScreenImage"
+                            onClick={handleCloseModal}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                            key="fullScreenImage"
+                        >
+                            <img
+                                src={images[slideNumber].img}
+                                alt={images[slideNumber].alt}
+                                className="active"
+                            />
+                            <div className="btnCloseContainer">
+                                <FontAwesomeIcon
+                                    icon={faCircleXmark}
+                                    className="btnClose"
+                                    onClick={handleCloseModal}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                <div
+                    className="galleryWrap"
+                    onMouseEnter={() => {
+                        setAutoPlay((prevState) => {
+                            return false;
+                        });
+                    }}
+                    onMouseLeave={() => {
+                        setAutoPlay((prevState) => {
+                            return true;
+                        });
+                    }}
+                >
                     <div className="btnPrevContainer" onClick={prevSlide}>
                         <FontAwesomeIcon
                             icon={faCircleChevronLeft}
@@ -103,87 +165,40 @@ export default function ImageSlider() {
                         <FontAwesomeIcon
                             icon={faCircleChevronRight}
                             className="btnNext"
-                            key="btnNextIcon"
                         />
                     </div>
-                    <div
-                        className="fullScreenImage"
-                        onClick={handleCloseModal}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                        key="fullScreenImage"
-                    >
-                        <img
-                            src={ImageGallery[slideNumber].img}
-                            alt={ImageGallery[slideNumber].alt}
-                            className="active"
-                        />
-                        <div className="btnCloseContainer">
-                            <FontAwesomeIcon
-                                icon={faCircleXmark}
-                                className="btnClose"
-                                onClick={handleCloseModal}
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <div
-                className="galleryWrap"
-                onMouseEnter={() => {
-                    setAutoPlay((prevState) => {
-                        return false;
-                    });
-                }}
-                onMouseLeave={() => {
-                    setAutoPlay((prevState) => {
-                        return true;
-                    });
-                }}
-            >
-                <div className="btnPrevContainer" onClick={prevSlide}>
-                    <FontAwesomeIcon
-                        icon={faCircleChevronLeft}
-                        className="btnPrev"
+                    {images &&
+                        images.map((slide, index) => {
+                            return (
+                                <div
+                                    className="single"
+                                    key={index}
+                                    onClick={handleOpenModal}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={handleTouchEnd}
+                                >
+                                    <img
+                                        src={slide.img}
+                                        alt=""
+                                        className={
+                                            slideNumber === index
+                                                ? 'active'
+                                                : ''
+                                        }
+                                    />
+                                </div>
+                            );
+                        })}
+                    <Dots
+                        ImageGalleryLength={images.length}
+                        SlideNumber={slideNumber}
+                        setSlideNumber={setSlideNumber}
                     />
                 </div>
-                <div className="btnNextContainer" onClick={nextSlide}>
-                    <FontAwesomeIcon
-                        icon={faCircleChevronRight}
-                        className="btnNext"
-                    />
-                </div>
-                {ImageGallery &&
-                    ImageGallery.map((slide, index) => {
-                        return (
-                            <div
-                                className="single"
-                                key={index}
-                                onClick={handleOpenModal}
-                                onTouchStart={handleTouchStart}
-                                onTouchMove={handleTouchMove}
-                                onTouchEnd={handleTouchEnd}
-                            >
-                                <img
-                                    src={slide.img}
-                                    alt=""
-                                    className={
-                                        slideNumber === index ? 'active' : ''
-                                    }
-                                />
-                            </div>
-                        );
-                    })}
-                <Dots
-                    ImageGalleryLength={ImageGallery.length}
-                    SlideNumber={slideNumber}
-                    setSlideNumber={setSlideNumber}
-                />
-            </div>
-        </>
-    );
+            </>
+        );
+    }
 }
 
 function Dots({ ImageGalleryLength, SlideNumber, setSlideNumber }) {

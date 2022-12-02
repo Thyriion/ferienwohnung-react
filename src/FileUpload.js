@@ -9,7 +9,7 @@ export default function FileUpload() {
             setUploading(true);
 
             if (!event.target.files || event.target.files.length === 0) {
-                throw new Error('You must select an image to upload.');
+                throw new Error('Bitte wähle ein Bild aus zum Hochladen.');
             }
 
             const file = event.target.files[0];
@@ -38,7 +38,7 @@ export default function FileUpload() {
             ) : (
                 <>
                     <label className="button primary block" htmlFor="single">
-                        Upload an avatar
+                        Füge ein Bild zum Slider
                     </label>
                     <div className="visually-hidden">
                         <input

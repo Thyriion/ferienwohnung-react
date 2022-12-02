@@ -1,3 +1,5 @@
+@use '/src/components/constants.scss' as c;
+
 .lds-dual-ring {
     display: inline-block;
     width: 80px;
@@ -10,8 +12,9 @@
         height: 64px;
         margin: 8px;
         border-radius: 50%;
-        border: 6px solid #fff;
-        border-color: #fff transparent #fff transparent;
+        border: 6px solid c.$dark-sea-green;
+        border-color: c.$dark-sea-green transparent c.$dark-sea-green
+            transparent;
         animation: lds-dual-ring 1.2s linear infinite;
     }
 }

@@ -1,6 +1,11 @@
-import { supabase } from '../../../supabaseClient';
+import { createClient } from '@supabase/supabase-js';
 
-async function createImageData() {
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+export const getImageData = async () => {
     const files = (await supabase.storage.from('images').list()).data;
 
     const images = await Promise.all(
@@ -20,5 +25,4 @@ async function createImageData() {
     );
 
     return images;
-}
-export const ImageData = createImageData();
+};
