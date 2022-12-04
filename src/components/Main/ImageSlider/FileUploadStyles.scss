@@ -1,0 +1,27 @@
+@use '/src/components/constants.scss' as c;
+
+.file-upload-wrapper {
+    text-align: center;
+    padding: 0.75em;
+    display: flex;
+    flex-direction: column;
+
+    .custom-file-upload {
+        margin: 0.75em 0;
+        border-radius: 1em;
+        padding: 1em;
+        border: none;
+        background-color: c.$laurel-green;
+        cursor: pointer;
+        transition: transform 0.2s ease-in;
+
+        &:hover {
+            transform: scale(1.05);
+            background-color: c.$yellow-green-crayola;
+        }
+
+        input[type='file'] {
+            display: none;
+        }
+    }
+}

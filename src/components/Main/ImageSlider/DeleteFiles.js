@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect } from 'react';
 import SupabaseContext from '../../../context/supabase/SupabaseContext';
 import {
     getImageData,
@@ -24,7 +24,7 @@ export default function DeleteFiles({ from }) {
             dispatch({ type: 'GET_IMAGES', payload: data });
         };
         setImages();
-    }, []);
+    }, [from, dispatch]);
 
     return (
         <div className="delete-image-wrapper">

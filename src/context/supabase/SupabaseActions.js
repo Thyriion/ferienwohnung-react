@@ -14,7 +14,7 @@ export const getImageData = async (folder) => {
             .map(async (image) => {
                 const { data, error } = await supabase.storage
                     .from('images')
-                    .download(image.name);
+                    .download(`${folder}/${image.name}`);
 
                 if (error) {
                     throw error;
@@ -36,24 +36,16 @@ export const uploadImage = async (event, folder) => {
         }
 
         const file = event.target.files[0];
-        const filePath = `${file.name}`;
-        console.log(filePath);
+        const filePath = `${folder}/${file.name}`;
         let { error: uploadError } = await supabase.storage
             .from('images')
             .upload(filePath, file);
 
-        console.log(uploadError);
         if (uploadError) {
             throw uploadError;
         }
 
-        const { error } = await supabase.storage
-            .from('images')
-            .move(filePath, `${folder}/${file.name}-${folder}`);
-
-        if (error) {
-            throw error;
-        }
+        alert('Datei erfolgreich hochgeladen');
     } catch (error) {
         alert(error.message);
     }

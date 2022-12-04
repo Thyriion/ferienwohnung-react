@@ -1,9 +1,10 @@
 @use '/src/components/constants.scss' as c;
 
 .delete-image-wrapper {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 2em;
 
     .delete-image {
@@ -34,5 +35,17 @@
                 background-color: red;
             }
         }
+    }
+}
+
+@media (max-width: 800px) {
+    .delete-image-wrapper {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .delete-image-wrapper {
+        grid-template-columns: 1fr;
     }
 }
