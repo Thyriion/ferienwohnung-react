@@ -1,8 +1,11 @@
-import React, { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './Pages/Pages.scss';
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 import Edit from './ImageSlider/Edit';
+import Login from './Pages/Login';
+import SupabaseContext from '../../context/supabase/SupabaseContext';
+import LogOut from './Pages/LogOut';
 
 const Home = React.lazy(() => import('./Pages/Home'));
 const Wohnung1 = React.lazy(() => import('./Pages/Wohnung1'));
@@ -14,6 +17,16 @@ const Gaestebuch = React.lazy(() => import('./Pages/Gaestebuch'));
 const Kontakt = React.lazy(() => import('./Pages/Kontakt'));
 
 export default function Main() {
+    const { dispatch } = useContext(SupabaseContext);
+
+    useEffect(() => {
+        async function getUserData() {
+            const user = await getUserData();
+            dispatch({ type: 'GET_USER_DATA', payload: user });
+        }
+        getUserData();
+    }, []);
+
     return (
         <main>
             <Suspense fallback={<LoadingSpinner />}>
@@ -27,6 +40,8 @@ export default function Main() {
                     <Route path="/Gaestebuch" element={<Gaestebuch />} />
                     <Route path="/Kontakt" element={<Kontakt />} />
                     <Route path="/Edit" element={<Edit />} />
+                    <Route path="/Login" element={<Login />} />
+                    <Route path="/LogOut" element={<LogOut />} />
                 </Routes>
             </Suspense>
         </main>

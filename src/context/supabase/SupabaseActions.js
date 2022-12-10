@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { Navigate } from 'react-router-dom';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
@@ -56,6 +57,24 @@ export const deleteImage = async (fileName, folder) => {
         const { error } = await supabase.storage
             .from('images')
             .remove([`${folder}/${fileName}`]);
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
+export const getUserData = async () => {
+    const userData = await supabase.auth.getUser();
+
+    return userData.data.user;
+};
+
+export const signOut = async () => {
+    try {
+        const { error } = await supabase.auth.signOut();
 
         if (error) {
             throw error;

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import SupabaseContext from '../../../context/supabase/SupabaseContext';
 import NavLink from './NavLink';
+import { signOut } from '../../../context/supabase/SupabaseActions';
 
 export default function NavList() {
+    const { user, dispatch } = useContext(SupabaseContext);
+    console.log(user);
     return (
         <ul>
             <li>
@@ -27,6 +31,13 @@ export default function NavList() {
             </li>
             <li>
                 <NavLink destination="/Kontakt" linkText="Kontakt" />
+            </li>
+            <li>
+                {Object.keys(user).length === 0 ? (
+                    <NavLink destination="/Login" linkText="Login" />
+                ) : (
+                    <NavLink destination="/LogOut" linkText="Logout" />
+                )}
             </li>
         </ul>
     );

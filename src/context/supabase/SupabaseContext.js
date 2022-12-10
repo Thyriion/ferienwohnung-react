@@ -7,6 +7,7 @@ export const SupabaseProvider = ({ children }) => {
     const initialState = {
         images: [],
         loading: false,
+        user: {},
     };
 
     const [state, dispatch] = useReducer(supabaseReducer, initialState);

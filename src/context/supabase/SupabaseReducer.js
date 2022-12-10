@@ -26,6 +26,18 @@ const supabaseReducer = (state, action) => {
                 ...state,
                 editLoading: false,
             };
+        case 'GET_USER_DATA':
+            return {
+                ...state,
+                user: action.payload,
+            };
+        case 'SIGN_OUT': {
+            return {
+                ...state,
+                loading: false,
+                user: {},
+            };
+        }
         default:
             return state;
     }
