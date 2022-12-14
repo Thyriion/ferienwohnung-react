@@ -1,11 +1,10 @@
-import React, { Suspense, useContext, useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import React, { Suspense, useContext, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './Pages/Pages.scss';
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 import Edit from './ImageSlider/Edit';
 import Login from './Pages/Login';
 import SupabaseContext from '../../context/supabase/SupabaseContext';
-import LogOut from './Pages/LogOut';
 
 const Home = React.lazy(() => import('./Pages/Home'));
 const Wohnung1 = React.lazy(() => import('./Pages/Wohnung1'));
@@ -41,7 +40,6 @@ export default function Main() {
                     <Route path="/Kontakt" element={<Kontakt />} />
                     <Route path="/Edit" element={<Edit />} />
                     <Route path="/Login" element={<Login />} />
-                    <Route path="/LogOut" element={<LogOut />} />
                 </Routes>
             </Suspense>
         </main>

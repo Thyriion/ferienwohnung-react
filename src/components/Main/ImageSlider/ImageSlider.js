@@ -18,7 +18,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { Link } from 'react-router-dom';
 
 export default function ImageSlider({ seite }) {
-    const { images, loading, dispatch } = useContext(SupabaseContext);
+    const { images, loading, dispatch, user } = useContext(SupabaseContext);
 
     const [slideNumber, setSlideNumber] = useState(0);
     const [autoPlay, setAutoPlay] = useState(true);
@@ -142,9 +142,11 @@ export default function ImageSlider({ seite }) {
                         </div>
                     </div>
                 )}
-                <Link to="/Edit" state={{ from: seite }}>
-                    Edit
-                </Link>
+                {Object.keys(user).length > 0 && (
+                    <Link to="/Edit" state={{ from: seite }}>
+                        Edit
+                    </Link>
+                )}
                 <div
                     className="galleryWrap"
                     onMouseEnter={() => {

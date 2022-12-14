@@ -5,7 +5,12 @@ import { signOut } from '../../../context/supabase/SupabaseActions';
 
 export default function NavList() {
     const { user, dispatch } = useContext(SupabaseContext);
-    console.log(user);
+
+    const handleLogOut = async () => {
+        await signOut();
+        dispatch({ type: 'SIGN_OUT' });
+    };
+
     return (
         <ul>
             <li>
@@ -36,7 +41,12 @@ export default function NavList() {
                 {Object.keys(user).length === 0 ? (
                     <NavLink destination="/Login" linkText="Login" />
                 ) : (
-                    <NavLink destination="/LogOut" linkText="Logout" />
+                    <button
+                        className="btn-logout"
+                        onClick={() => handleLogOut()}
+                    >
+                        LogOut
+                    </button>
                 )}
             </li>
         </ul>

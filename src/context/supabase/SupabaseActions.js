@@ -72,6 +72,21 @@ export const getUserData = async () => {
     return userData.data.user;
 };
 
+export const signIn = async (email, password) => {
+    try {
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            throw error;
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
 export const signOut = async () => {
     try {
         const { error } = await supabase.auth.signOut();
